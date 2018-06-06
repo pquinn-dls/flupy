@@ -1,0 +1,64 @@
+[XRFFit.elastic]
+
+
+[XRFFit.elastic.hyp_st_area]
+bound_type  = fixed
+min         = 0.0001
+max         = 1.0
+value       = 0.0
+
+[XRFFit.elastic.hyp_st_slope]
+bound_type  = fixed
+min         = 0.001
+max         = 1.0
+value       = 0.0
+
+[XRFFit.elastic.hyp_lt_slope]
+bound_type  = fixed
+min         = 0.0001
+max         = 1.0
+value       = 0.0
+
+[XRFFit.elastic.hyp_lt_area]
+bound_type  = fixed
+min         = 0.0001
+max         = 1.0
+value       = 0.0
+
+[XRFFit.elastic.hyp_step_height]
+bound_type  = fixed
+min         = 0.0
+max         = 1.0
+value       = 0.0
+
+[XRFFit.elastic.fwhm_offset]
+bound_type  = lohi
+min         = 0.02
+max         = 0.18
+value       = 0.12
+
+[XRFFit.elastic.area]
+bound_type  = lohi
+min         = 0.0  
+max         = 1.0e6
+value       = 100.
+
+
+[XRFFit.elastic.sigma1]
+bound_type  = lohi
+min         = 1.0e-6
+max         = 0.25
+value       = 0.06
+
+[XRFFit.elastic.sigma2]
+bound_type  = lohi
+min         = 1.0e-6
+max         = 0.25
+value       = 0.06
+
+[XRFFit.elastic.fraction]
+bound_type  = lohi
+min         = 0.0
+max         = 1.0
+value       = 0.05
+

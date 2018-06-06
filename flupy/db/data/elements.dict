@@ -1,0 +1,770 @@
+#
+#
+# Dictionary of the elements and some basic properties
+# Used for attenuation calculations and XRF calculations (typically a conversion from name to atomic number)
+#
+#
+[Elements]
+
+[Elements.Ru]
+Z = 44
+Mass = 101.07
+Name = Ruthenium
+Sym  = Ru
+Density = 12.41
+
+[Elements.Ni]
+Z = 28
+Mass = 58.69
+Name = Nickel
+Sym  = Ni
+Density = 8.9
+
+[Elements.Na]
+Z = 11
+Mass = 22.997
+Name = Sodium
+Sym  = Na
+Density = 0.97
+
+[Elements.Nb]
+Z = 41
+Mass = 92.906
+Name = Niobium
+Sym  = Nb
+Density = 8.57
+
+[Elements.Nd]
+Z = 60
+Mass = 144.27
+Name = Neodymium
+Sym  = Nd
+Density = 6.96
+
+[Elements.Ne]
+Z = 10
+Mass = 20.183
+Name = Neon
+Sym  = Ne
+Density = 0.0009
+
+[Elements.Re]
+Z = 75
+Mass = 186.2
+Name = Rhenium
+Sym  = Re
+Density = 21.02
+
+[Elements.Rf]
+Z = 104
+Mass = 261
+Name = Rutherfordium
+Sym  = Rf
+Density = 0.0
+
+[Elements.Ra]
+Z = 88
+Mass = 226.0
+Name = Radium
+Sym  = Ra
+Density = 0.0
+
+[Elements.Rb]
+Z = 37
+Mass = 85.48
+Name = Rubidium
+Sym  = Rb
+Density = 1.532
+
+[Elements.Np]
+Z = 93
+Mass = 237.0
+Name = Neptunium
+Sym  = Np
+Density = 0.0
+
+[Elements.Rn]
+Z = 86
+Mass = 222.0
+Name = radon
+Sym  = Rn
+Density = 0.00973
+
+[Elements.Rh]
+Z = 45
+Mass = 102.91
+Name = rhodium
+Sym  = Rh
+Density = 12.44
+
+[Elements.Be]
+Z = 4
+Mass = 9.012
+Name = beryllium
+Sym  = Be
+Density = 1.848
+
+[Elements.Fr]
+Z = 87
+Mass = 223.0
+Name = francium
+Sym  = Fr
+Density = 0.0
+
+[Elements.Ba]
+Z = 56
+Mass = 137.36
+Name = barium
+Sym  = Ba
+Density = 3.5
+
+[Elements.Sg]
+Z = 106
+Mass = 266
+Name = seaborgium
+Sym  = Sg
+Density = 0.0
+
+[Elements.No]
+Z = 102
+Mass = 259
+Name = nobelium
+Sym  = No
+Density = 0.0
+
+[Elements.Bh]
+Z = 107
+Mass = 264
+Name = bohrium
+Sym  = Bh
+Density = 0.0
+
+[Elements.Bi]
+Z = 83
+Mass = 209.0
+Name = bismuth
+Sym  = Bi
+Density = 9.8
+
+[Elements.Bk]
+Z = 97
+Mass = 247
+Name = berkelium
+Sym  = Bk
+Density = 0.0
+
+[Elements.Fe]
+Z = 26
+Mass = 55.85
+Name = iron
+Sym  = Fe
+Density = 7.86
+
+[Elements.Br]
+Z = 35
+Mass = 79.92
+Name = bromine
+Sym  = Br
+Density = 3.12
+
+[Elements.Fm]
+Z = 100
+Mass = 257
+Name = fermium
+Sym  = Fm
+Density = 0.0
+
+[Elements.B]
+Z = 5
+Mass = 10.811
+Name = boron
+Sym  = B
+Density = 2.34
+
+[Elements.F]
+Z = 9
+Mass = 19.0
+Name = fluorine
+Sym  = F
+Density = 1.108
+
+[Elements.H]
+Z = 1
+Mass = 1.008
+Name = hydrogen
+Sym  = H
+Density = 1.008
+
+[Elements.Dy]
+Z = 66
+Mass = 162.51
+Name = dysprosium
+Sym  = Dy
+Density = 8.536
+
+[Elements.Lu]
+Z = 71
+Mass = 174.99
+Name = lutetium
+Sym  = Lu
+Density = 9.842
+
+[Elements.Ac]
+Z = 89
+Mass = 227.0
+Name = actinium
+Sym  = Ac
+Density = 0.0
+
+[Elements.N]
+Z = 7
+Mass = 14.008
+Name = nitrogen
+Sym  = N
+Density = 0.00125
+
+[Elements.P]
+Z = 15
+Mass = 30.975
+Name = phosphorus
+Sym  = P
+Density = 1.82
+
+[Elements.Si]
+Z = 14
+Mass = 28.086
+Name = silicon
+Sym  = Si
+Density = 2.33
+
+[Elements.Sn]
+Z = 50
+Mass = 118.69
+Name = tin
+Sym  = Sn
+Density = 5.31
+
+[Elements.Sm]
+Z = 62
+Mass = 150.35
+Name = samarium
+Sym  = Sm
+Density = 7.536
+
+[Elements.V]
+Z = 23
+Mass = 50.942
+Name = vanadium
+Sym  = V
+Density = 6.11
+
+[Elements.Sc]
+Z = 21
+Mass = 44.96
+Name = scandium
+Sym  = Sc
+Density = 2.992
+
+[Elements.Sb]
+Z = 51
+Mass = 121.76
+Name = antimony
+Sym  = Sb
+Density = 6.691
+
+[Elements.Os]
+Z = 76
+Mass = 190.2
+Name = osmium
+Sym  = Os
+Density = 22.5
+
+[Elements.Se]
+Z = 34
+Mass = 78.96
+Name = selenium
+Sym  = Se
+Density = 4.79
+
+[Elements.Co]
+Z = 27
+Mass = 58.933
+Name = cobalt
+Sym  = Co
+Density = 8.9
+
+[Elements.Cm]
+Z = 96
+Mass = 247
+Name = curium
+Sym  = Cm
+Density = 0.0
+
+[Elements.Cl]
+Z = 17
+Mass = 35.457
+Name = chlorine
+Sym  = Cl
+Density = 1.56
+
+[Elements.Ca]
+Z = 20
+Mass = 40.08
+Name = calcium
+Sym  = Ca
+Density = 1.55
+
+[Elements.Cf]
+Z = 98
+Mass = 251
+Name = californium
+Sym  = Cf
+Density = 0.0
+
+[Elements.Ce]
+Z = 58
+Mass = 140.13
+Name = cerium
+Sym  = Ce
+Density = 6.67
+
+[Elements.Cd]
+Z = 48
+Mass = 112.41
+Name = cadmium
+Sym  = Cd
+Density = 8.65
+
+[Elements.Ge]
+Z = 32
+Mass = 72.59
+Name = germanium
+Sym  = Ge
+Density = 5.323
+
+[Elements.Gd]
+Z = 64
+Mass = 157.26
+Name = gadolinium
+Sym  = Gd
+Density = 7.95
+
+[Elements.Ga]
+Z = 31
+Mass = 69.72
+Name = gallium
+Sym  = Ga
+Density = 5.903
+
+[Elements.Cs]
+Z = 55
+Mass = 132.91
+Name = caesium
+Sym  = Cs
+Density = 1.873
+
+[Elements.Cr]
+Z = 24
+Mass = 51.996
+Name = chromium
+Sym  = Cr
+Density = 7.19
+
+[Elements.At]
+Z = 85
+Mass = 210.0
+Name = astatine
+Sym  = At
+Density = 0.0
+
+[Elements.Cu]
+Z = 29
+Mass = 63.54
+Name = copper
+Sym  = Cu
+Density = 8.94
+
+[Elements.Pr]
+Z = 59
+Mass = 140.92
+Name = praseodymium
+Sym  = Pr
+Density = 6.769
+
+[Elements.Th]
+Z = 90
+Mass = 232.0
+Name = thorium
+Sym  = Th
+Density = 11.7
+
+[Elements.Pt]
+Z = 78
+Mass = 195.09
+Name = platinum
+Sym  = Pt
+Density = 21.37
+
+[Elements.Pu]
+Z = 94
+Mass = 239.1
+Name = plutonium
+Sym  = Pu
+Density = 19.7
+
+[Elements.Mg]
+Z = 12
+Mass = 24.32
+Name = magnesium
+Sym  = Mg
+Density = 1.74
+
+[Elements.Li]
+Z = 3
+Mass = 6.94
+Name = lithium
+Sym  = Li
+Density = 0.534
+
+[Elements.Pb]
+Z = 82
+Mass = 207.21
+Name = lead
+Sym  = Pb
+Density = 11.34
+
+[Elements.Tl]
+Z = 81
+Mass = 204.39
+Name = thallium
+Sym  = Tl
+Density = 11.86
+
+[Elements.Pa]
+Z = 91
+Mass = 231.03588
+Name = proactinium
+Sym  = Pa
+Density = 0.0
+
+[Elements.Lr]
+Z = 103
+Mass = 262
+Name = lawrencium
+Sym  = Lr
+Density = 0.0
+
+[Elements.Pd]
+Z = 46
+Mass = 106.4
+Name = palladium
+Sym  = Pd
+Density = 12.16
+
+[Elements.Ti]
+Z = 22
+Mass = 47.9
+Name = titanium
+Sym  = Ti
+Density = 4.54
+
+[Elements.Xe]
+Z = 54
+Mass = 131.3
+Name = xenon
+Sym  = Xe
+Density = 0.0059
+
+[Elements.Tb]
+Z = 65
+Mass = 158.93
+Name = terbium
+Sym  = Tb
+Density = 8.272
+
+[Elements.Po]
+Z = 84
+Mass = 209.0
+Name = polonium
+Sym  = Po
+Density = 0.0
+
+[Elements.Pm]
+Z = 61
+Mass = 147.0
+Name = promethium
+Sym  = Pm
+Density = 6.782
+
+[Elements.Te]
+Z = 52
+Mass = 127.6
+Name = tellurium
+Sym  = Te
+Density = 6.24
+
+[Elements.Hs]
+Z = 108
+Mass = 269
+Name = hassium
+Sym  = Hs
+Density = 0.0
+
+[Elements.Yb]
+Z = 70
+Mass = 173.04
+Name = ytterbium
+Sym  = Yb
+Density = 6.977
+
+[Elements.Db]
+Z = 105
+Mass = 262
+Name = dubnium
+Sym  = Db
+Density = 0.0
+
+[Elements.Eu]
+Z = 63
+Mass = 152.0
+Name = europium
+Sym  = Eu
+Density = 5.259
+
+[Elements.Tc]
+Z = 43
+Mass = 99.0
+Name = technetium
+Sym  = Tc
+Density = 11.5
+
+[Elements.Ho]
+Z = 67
+Mass = 164.94
+Name = holmium
+Sym  = Ho
+Density = 8.803
+
+[Elements.Sr]
+Z = 38
+Mass = 87.62
+Name = strontium
+Sym  = Sr
+Density = 2.54
+
+[Elements.Ta]
+Z = 73
+Mass = 180.95
+Name = tantalum
+Sym  = Ta
+Density = 16.6
+
+[Elements.Hf]
+Z = 72
+Mass = 178.5
+Name = hafnium
+Sym  = Hf
+Density = 13.3
+
+[Elements.Hg]
+Z = 80
+Mass = 200.61
+Name = mercury
+Sym  = Mg
+Density = 13.546
+
+[Elements.He]
+Z = 2
+Mass = 4.003
+Name = helium
+Sym  = He
+Density = 0.0001185
+
+[Elements.Md]
+Z = 101
+Mass = 258
+Name = mendelevium
+Sym  = Md
+Density = 0.0
+
+[Elements.C]
+Z = 6
+Mass = 12.01
+Name = carbon
+Sym  = C
+Density = 1.58
+
+[Elements.I]
+Z = 53
+Mass = 126.91
+Name = iodine
+Sym  = I
+Density = 4.94
+
+[Elements.K]
+Z = 19
+Mass = 39.102
+Name = potassium
+Sym  = K
+Density = 0.862
+
+[Elements.Mn]
+Z = 25
+Mass = 54.94
+Name = manganese
+Sym  = Mn
+Density = 7.42
+
+[Elements.O]
+Z = 8
+Mass = 16.0
+Name = oxygen
+Sym  = O
+Density = 0.001429
+
+[Elements.Mt]
+Z = 109
+Mass = 268
+Name = meitnerium
+Sym  = Mt
+Density = 0.0
+
+[Elements.S]
+Z = 16
+Mass = 32.066
+Name = sulphur
+Sym  = S
+Density = 2.0
+
+[Elements.U]
+Z = 92
+Mass = 238.07
+Name = uranium
+Sym  = U
+Density = 19.05
+
+[Elements.W]
+Z = 74
+Mass = 183.92
+Name = tungsten
+Sym  = W
+Density = 19.3
+
+[Elements.Y]
+Z = 39
+Mass = 88.905
+Name = yttrium
+Sym  = Y
+Density = 4.405
+
+[Elements.Zn]
+Z = 30
+Mass = 65.38
+Name = zinc
+Sym  = Zn
+Density = 7.14
+
+[Elements.La]
+Z = 57
+Mass = 138.92
+Name = lanthanum
+Sym  = La
+Density = 6.15
+
+[Elements.Ag]
+Z = 47
+Mass = 107.88
+Name = silver
+Sym  = Ag
+Density = 10.5
+
+[Elements.Kr]
+Z = 36
+Mass = 83.8
+Name = krypton
+Sym  = Kr
+Density = 0.00374
+
+[Elements.Ir]
+Z = 77
+Mass = 192.2
+Name = iridium
+Sym  = Ir
+Density = 22.42
+
+[Elements.Am]
+Z = 95
+Mass = 243
+Name = americium
+Sym  = Am
+Density = 0.0
+
+[Elements.Al]
+Z = 13
+Mass = 26.97
+Name = aluminium
+Sym  = Al
+Density = 2.72
+
+[Elements.As]
+Z = 33
+Mass = 74.92
+Name = arsenic
+Sym  = As
+Density = 5.73
+
+[Elements.Ar]
+Z = 18
+Mass = 39.944
+Name = argon
+Sym  = Ar
+Density = 0.001784
+
+[Elements.Au]
+Z = 79
+Mass = 197.2
+Name = gold
+Sym  = Au
+Density = 19.37
+
+[Elements.Zr]
+Z = 40
+Mass = 91.22
+Name = zirconium
+Sym  = Zr
+Density = 6.53
+
+[Elements.In]
+Z = 49
+Mass = 114.82
+Name = indium
+Sym  = In
+Density = 7.28
+
+[Elements.Mo]
+Z = 42
+Mass = 95.95
+Name = molybdenum
+Sym  = Mo
+Density = 10.22
+
+[Elements.Tm]
+Z = 69
+Mass = 168.94
+Name = thulium
+Sym  = Tm
+Density = 9.332
+
+[Elements.Es]
+Z = 99
+Mass = 252
+Name = einsteinium
+Sym  = Es
+Density = 0.0
+
+[Elements.Er]
+Z = 68
+Mass = 167.27
+Name = erbium
+Sym  = Er
+Density = 9.051

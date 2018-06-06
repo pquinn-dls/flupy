@@ -1,0 +1,14 @@
+[lineshape.element.gaussian]
+
+[lineshape.element.gaussian.sigma]
+bound_type  = free
+min         = 0.03
+max         = 0.20
+value       = 0.06
+
+[lineshape.element.gaussian.area]
+bound_type  = lohi
+min         = 1.0e-6
+max         = 1.0e6
+value       = 100.0
+

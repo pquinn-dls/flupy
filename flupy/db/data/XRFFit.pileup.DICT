@@ -1,0 +1,8 @@
+[XRFFit.pileup]
+
+[XRFFit.pileup.pileup_factor]
+bound_type  = lohi
+min         = 0.0
+max         = 5.25
+value       = 0.001
+

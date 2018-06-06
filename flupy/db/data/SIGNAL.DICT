@@ -1,0 +1,12 @@
+[Signal]
+binned=False
+quantity=counts
+signal_type=xrf
+signal_origin=experiment
+[Signal.Noise_properties]
+variance=0.0
+[Signal.Noise_properties.Variance_linear_model]
+correlation_factor=1.0
+gain_factor=1.0
+gain_offset=0.0
+parameters_estimation_method=Gaussian

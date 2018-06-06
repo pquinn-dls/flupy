@@ -1,0 +1,90 @@
+├── Materials
+│   ├── Air (example)
+│   │   ├── Name
+│   │   ├── CompoundList
+│   │   ├── CompoundFraction
+│   │   ├── Density g/cm3
+│   ├── ....for each material listed....
+├── Elements
+│   ├── Ru (example)
+│   │   ├── Z
+│   │   ├── Mass
+│   │   ├── Name
+│   │   ├── Density g/cm3
+│   ├── ....and continued for each element....
+├── XRF
+│   ├── common
+│   │   ├── e_offset
+│   │   │   ├── min
+│   │   │   ├── max
+│   │   │   ├── value
+│   │   │   ├── bound_type (fixed,free,lohi)
+│   │   ├── e_linear
+│   │   │   ├── min
+│   │   │   ├── max
+│   │   │   ├── value
+│   │   │   ├── bound_type ((fixed,free,lohi)
+│   │   ├── e_quadratic
+│   │   │   ├── min
+│   │   │   ├── max
+│   │   │   ├── value
+│   │   │   ├── bound_type (fixed,free,lohi)
+│   │   ├── fwhm_fanoprime
+│   │   │   ├── min
+│   │   │   ├── max
+│   │   │   ├── value
+│   │   │   ├── bound_type (fixed,free,lohi)
+│   │   ├── e_range
+│   │   │   ├── min
+│   │   │   ├── max
+│   ├── pileup
+│   │   ├─include_pileup
+│   │   ├─pileup_cutoff_low
+│   │   ├─pileup_factor
+│   │   │   ├── min
+│   │   │   ├── max
+│   │   │   ├── value
+│   │   │   ├── bound_type (fixed,free,lohi)
+│   ├── escape
+│   │   ├─include_escape
+│   ├── background
+│   │   ├─backgroup_method
+│   │   ├─snip
+│   │   │   ├── width
+│   │   │   ├── iterations
+│   │   ├─strip
+│   │   │   ├── width
+│   │   │   ├── iterations
+│   │   ├─poly
+│   │   │   ├── width
+│   │   │   ├── iterations
+│   ├── element
+│   │   ├─linetype 
+│   ├── elastic
+│   │   ├─include_elastic
+│   │   ├─linetype 
+│   ├── compton
+│   │   ├─include_compton
+│   │   ├─linetype 
+│   ├── linetypes 
+│   │   ├── guassian
+│   │   │   ├── area
+│   │   │   │   ├── min
+│   │   │   │   ├── max
+│   │   │   │   ├── value
+│   │   │   │   ├── bound_type
+│   │   │   ├── sigma
+│   │   │   │   ├── min
+│   │   │   │   ├── max
+│   │   │   │   ├── value
+│   │   │   │   ├── bound_type
+│   │   │   ├── center
+│   │   │   │   ├── min
+│   │   │   │   ├── max
+│   │   │   │   ├── value
+│   │   │   │   ├── bound_type
+│   │   ├── split_pvoigt
+│   │   │   ├── area
+│   │   │   │   ├── min
+...defaults and parameter settings for every line type.....
+

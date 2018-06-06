@@ -1,0 +1,83 @@
+
+[XRFFit.compton]
+
+[XRFFit.compton.area]
+bound_type  = lohi
+min         = 0.0  
+max         = 1.0e10
+value       = 10000.0
+
+[XRFFit.compton.angle]
+bound_type  = lohi
+min         = 120.0
+max         = 165.0
+value       = 135.0
+
+[XRFFit.compton.f_step]
+bound_type  = lohi
+min         = 0.0
+max         = 1.5
+value       = 0.0
+
+[XRFFit.compton.f_tail]
+bound_type  = lohi
+min         = 0.0
+max         = 20.0
+value       = 0.2386
+
+[XRFFit.compton.fwhm_corr]
+bound_type  = lohi
+min         = 0.1
+max         = 3.0
+value       = 1.4
+
+[XRFFit.compton.fwhm_offset]
+bound_type  = lohi
+min         = 0.05
+max         = 0.25
+value       = 0.15
+
+[XRFFit.compton.gamma]
+bound_type  = lohi
+min         = 0.1
+max         = 500.0
+value       = 6.877
+
+[XRFFit.compton.hi_f_tail]
+bound_type  = lohi
+min         = 0.0
+max         = 500.0
+value       = 0.0
+
+[XRFFit.compton.hi_gamma]
+bound_type  = lohi
+min         = 0.1
+max         = 500.0
+value       = 1.0
+
+
+[XRFFit.compton.sigma1]
+bound_type  = lohi
+min         = 0.03
+max         = 0.45
+value       = 0.06
+
+[XRFFit.compton.sigma2]
+bound_type  = lohi
+min         = 0.03
+max         = 0.45
+value       = 0.06
+
+[XRFFit.compton.sigma]
+bound_type  = lohi
+min         = 0.03
+max         = 0.45
+value       = 0.06489
+
+
+[XRFFit.compton.fraction]
+bound_type  = lohi
+min         = 0.0
+max         = 0.15
+value       = 0.1
+

@@ -1,0 +1,73 @@
+#
+#
+# x ray lib lines
+#
+#
+[Xraylib]
+
+[Materials.Air]
+Name             = Air
+CompoundList     = C, N, O, Ar, Kr
+CompoundFraction = 0.0001240, 0.755267, 0.231780, 0.012827, 3.2E-6
+Density          = 0.001204790
+
+[Materials.Mylar]
+Name             = Mylar
+CompoundList     = H, C, O
+CompoundFraction = 0.0419590, 0.625017, 0.333025
+Density          = 1.40
+
+[Materials.Kapton]
+Name             = Kapton
+CompoundList     = C, N, O
+CompoundFraction = 0.628772, 0.066659, 0.304569
+Density          = 1.42
+
+[Materials.Teflon]
+Name             = Teflon
+CompoundList     = C,F
+CompoundFraction = 0.240183, 0.759817
+Density          = 2.2
+
+[Materials.Viton]
+Name             = Viton
+CompoundList     = H,C,F
+CompoundFraction = 0.0094170, 0.2805550, 0.7100280
+Density          = 1.8
+
+[Materials.Water]
+Name             = Water
+CompoundList     = H,O
+CompoundFraction = 0.111,0.899
+Density          = 1.0
+
+[Materials.Al2O3]
+Name             = Al2O3
+CompoundList     = O,Al
+CompoundFraction = 0.470749,0.529251
+Density          = 3.97
+
+[Materials.Si3N4]
+Name       = Si3N4
+Density    = 3.44
+CompoundFraction = 0.60062,0.39938
+CompoundList = Si,N
+
+[Materials.ReferenceAXO]
+Name       = ReferenceAXO
+Density    = 3.44
+CompoundFraction = 0.0103, 0.0149, 0.0024, 0.0018, 0.0038, 0.0068, 0.0261, 0.9338
+CompoundList = Pb, La, Pd, Mo, Cu, Fe, Ca, Si3N4
+
+
+[Materials.Tissue]
+Name = Tissue
+Density = 1.0
+CompoundFraction = 0.101, 0.11, 0.026, 0.762, 0.0007, 0.0005, 1e-05, 2e-05
+CompoundList = H, C, N, O, Ca, Fe, Cu, Zn
+
+[Materials.Quartz]
+Name = Quartz
+Density = 2.655
+CompoundFraction = 0.47, 0.53
+CompoundList = Si, O

@@ -1,0 +1,40 @@
+[Acquisition_instrument]
+
+[Acquisition_instrument.XRF]
+incident_angle = 0.0
+exit_angle= 45.0
+beam_energy=11.0
+[Acquisition_instrument.XRF.Detector]
+energy_resolution_MnKa = 0.150
+gain= 0.01
+offset=0.0
+fano=0.1
+live_time=1.0
+real_time=1.0
+detector_distance=17.0
+detector_area=200.0
+detector_type=Si
+no_detector_sensors=4
+no_of_channels=2048
+scattering_angle=105.0
+[Acquisition_instrument.XRF.Detector.Attenuators]
+
+[Acquisition_instrument.XRF.Detector.Attenuators.window]
+thickness=12.5e-4
+composition=Be
+
+[Acquisition_instrument.XRF.Detector.Attenuators.sensor]
+thickness=450.0e-4
+composition=Si
+
+[Acquisition_instrument.XRF.Detector.Attenuators.deadlayer]
+thickness= 5e-7
+composition=Si
+
+[Acquisition_instrument.XRF.Attenuators]
+[Acquisition_instrument.XRF.Attenuators.air]
+thickness= 1.7
+composition=Air
+
+
+[Acquisition_instrument.XRF.Stage]

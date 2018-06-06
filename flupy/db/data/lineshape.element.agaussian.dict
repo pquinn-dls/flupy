@@ -1,0 +1,20 @@
+[lineshape.element.agaussian.element]
+
+[lineshape.element.agaussian.element.sigma1]
+bound_type  = lohi
+min         = 0.03
+max         = 0.20
+value       = 0.06945
+
+[lineshape.element.agaussian.element.sigma2]
+bound_type  = lohi
+min         = 0.03
+max         = 0.20
+value       = 0.064947
+
+[lineshape.element.agaussian.element.area]
+bound_type  = lohi
+min         = 1.0e-6
+max         = 1.0e6
+value       = 100.0
+

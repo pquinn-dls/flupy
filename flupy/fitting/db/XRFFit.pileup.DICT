@@ -1,0 +1,74 @@
+[XRFFit.pileup]
+
+[XRFFit.pileup.pileup_factor]
+bound_type  = lohi
+min         = 0.0
+max         = 5.25
+value       = 0.005
+
+[XRFFit.pileup.hyp_st_area]
+bound_type  = lohi
+min         = 0.0001
+max         = 1.0e5
+value       = 0.0
+
+[XRFFit.pileup.hyp_st_slope]
+bound_type  = fixed
+min         = 0.001
+max         = 1.0
+value       = 0.0
+
+[XRFFit.pileup.hyp_lt_slope]
+bound_type  = fixed
+min         = 0.0001
+max         = 1.0
+value       = 0.0
+
+[XRFFit.pileup.hyp_lt_area]
+bound_type  = fixed
+min         = 0.0001
+max         = 1.0
+value       = 0.0
+
+[XRFFit.pileup.hyp_step_height]
+bound_type  = lohi
+min         = 0.0
+max         = 1.0e5
+value       = 0.5
+
+[XRFFit.pileup.fwhm_offset]
+bound_type  = free
+min         = 0.08
+max         = 0.18
+value       = 0.12
+
+[XRFFit.pileup.sigma1]
+bound_type  = free
+min         = 5.0e-3
+max         = 0.2
+value       = 0.06
+
+[XRFFit.pileup.sigma2]
+bound_type  = free
+min         = 5.0e-3
+max         = 0.2
+value       = 0.06
+
+[XRFFit.pileup.gamma]
+bound_type  = lohi
+min         = 1.0e-4
+max         = 200.
+value       = 1.0
+
+[XRFFit.pileup.fraction]
+bound_type  = fixed
+min         = 0.0
+max         = 0.2
+value       = 0.01
+
+[XRFFit.pileup.area]
+bound_type  = free
+min         = 0.0
+max         = 1.0e3
+value       = 5.0
+

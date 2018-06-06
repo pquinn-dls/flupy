@@ -1,0 +1,74 @@
+[XRFFit.element]
+
+[XRFFit.element.shorttail_area]
+bound_type  = lohi
+min         = 0.0001
+max         = 1.0
+value       = 0.05
+
+[XRFFit.element.shorttail_slope]
+bound_type  = lohi
+min         = 0.00001
+max         = 10.
+value       = 0.5
+
+[XRFFit.element.longtail_slope]
+bound_type  = lohi
+min         = 0.000001
+max         = 200.
+value       = 10.0
+
+[XRFFit.element.longtail_area]
+bound_type  = lohi
+min         = 0.000001
+max         = 1.0
+value       = 0.02
+
+[XRFFit.element.step_height]
+bound_type  = lohi
+min         = 0.0
+max         = 1.0
+value       = 1e-5
+
+[XRFFit.element.fwhm_offset]
+bound_type  = lohi
+min         = 0.08
+max         = 0.18
+value       = 0.12
+
+[XRFFit.element.sigma1]
+bound_type  = lohi
+min         = 0.03
+max         = 0.20
+value       = 0.06945
+
+[XRFFit.element.sigma]
+bound_type  = free
+min         = 0.03
+max         = 0.20
+value       = 0.06
+
+[XRFFit.element.sigma2]
+bound_type  = lohi
+min         = 0.03
+max         = 0.20
+value       = 0.064947
+
+[XRFFit.element.gamma]
+bound_type  = lohi
+min         = 1.0e-4
+max         = 200.
+value       = 1.0
+
+[XRFFit.element.fraction]
+bound_type  = lohi
+min         = 0.0
+max         = 0.15
+value       = 0.0
+
+[XRFFit.element.area]
+bound_type  = lohi
+min         = 1.0e-6
+max         = 1.0e6
+value       = 100.0
+

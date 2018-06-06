@@ -1,0 +1,32 @@
+[XRFFit.FitParams]
+
+fitted_energy_range_keV=2.0,21.
+pileup_factor=1.0
+background=poly
+background_poly_order=5 
+background_poly_fixed=1 
+snip_width=7
+snip_iterations=24
+fit_weighting = 0   
+include_pileup = 0
+include_escape=1    
+combine_escape_and_xrf = 1  
+escape_limit= 0.01
+pileup_cutoff_keV=4.0   
+pileup_limit= 0.01  
+scatter_fudge_keV=1.25
+
+[XRFFit.non_fitting_values]
+epsilon          = 3.51
+background_width = 0.5
+
+[XRFFit.non_fitting_values.energy_bound_low]
+value           = 1.5
+default_value   = 1.5
+description     = E_low_keV
+
+[XRFFit.non_fitting_values.energy_bound_high]
+value           = 13.5
+default_value   = 13.5
+description     = E_high_keV
+

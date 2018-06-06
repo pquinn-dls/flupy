@@ -1,0 +1,31 @@
+[XRFFit.common]
+
+[XRFFit.common.coherent_sct_energy]
+bound_type  = fixed
+min         = 17.1
+max         = 17.4
+value       = 17.183
+
+[XRFFit.common.e_linear]
+bound_type  = fixed
+min         = 0.009
+max         = 0.011
+value       = 0.010
+
+[XRFFit.common.e_offset]
+bound_type  = lohi
+min         = -0.05
+max         = 0.05
+value       = 0.0
+
+[XRFFit.common.e_quadratic]
+bound_type  = fixed
+min         = -0.001
+max         = 0.001
+value       = 0.0
+
+[XRFFit.common.fwhm_fanoprime]
+bound_type  = fixed
+min         = 1.0e-8
+max         = 0.2
+value       = 0.00029040

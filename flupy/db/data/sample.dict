@@ -1,0 +1,9 @@
+[Sample]
+credits=0
+description=0
+elements=Fe
+thickness=0.1e-6
+xray_lines=Fe_Ka
+[Sample.Matrix]
+[Sample.Multilayer]
+

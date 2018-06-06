@@ -1,0 +1,468 @@
+import numpy as np
+import _xraylib as xl
+from flupy.algorithms.xrf_calculations.transitions_and_shells import shells,transitions
+from flupy.algorithms.xrf_calculations.escape import *
+from flupy.algorithms.xrf_calculations.xrf_line_creator import characteristic_lines
+from flupy.algorithms.xrf_calculations.escape_line_creator import escape_characteristic_lines
+from flupy.algorithms.xrf_calculations.pileup_line_creator import pileup_characteristic_lines,sumup_line_pair
+from itertools import combinations_with_replacement
+import math
+
+def countIt(a):
+       
+    b = (a != 0).sum(2) > 0
+    no_xrf_peaks = np.sum(b[0])
+    no_pileup_peaks_with_xrf = np.sum(np.logical_and(b[1],b[0]))
+    no_pileup_peaks_no_xrf = np.sum(np.logical_and(np.logical_not(b[0]),b[1]) )                
+    no_escape_peaks_with_xrf = np.sum(np.logical_and(b[2],b[0]))        
+    no_escape_peaks_no_xrf = np.sum(np.logical_and(np.logical_not(b[0]), b[2]))                
+   
+    return b,no_xrf_peaks,no_pileup_peaks_with_xrf,no_pileup_peaks_no_xrf,\
+       no_escape_peaks_with_xrf, no_escape_peaks_no_xrf                
+       
+
+def find_pileup_peak_list(energy,fitelements,fitting_range,pileup_cut_off):
+    """
+    Determine how many pileup peaks should be in the fit and return a list of element and shell combos
+    """
+    # work out the combinations of elements then see what fits..
+    pileup_list=[]
+    pileup_descript=[]
+    # combinations of all elements..
+    sumpeak_combinations=combinations_with_replacement(fitelements,2)
+    for combo in sumpeak_combinations: 
+        z1 =  xl.SymbolToAtomicNumber(combo[0])
+        z2 =  xl.SymbolToAtomicNumber(combo[1])
+        for shell1 in shells:
+            if(xl.EdgeEnergy(z1,shell1)< energy-0.2):
+                e1 = xl.LineEnergy(z1,shell1)
+                for shell2 in shells:
+                    if(xl.EdgeEnergy(z2,shell2)< energy-0.2):
+                        e2=xl.LineEnergy(z2,shell2)
+                        sum_peak_energy = e1+e2
+                        if(sum_peak_energy > fitting_range[0] and sum_peak_energy < fitting_range[1] and sum_peak_energy>pileup_cut_off):
+                            # Now add the peak to the list
+                            pileup_list.append((combo,(z1,z1),(shell1,shell2)))
+    return pileup_list
+
+
+def find_escape_peak_list(energy,fitelements,fitting_range,detectortype):
+    escape_list=[]
+    for el in enumerate(fitelements):
+        z =  xl.SymbolToAtomicNumber(el)
+        temp_shell_list=[]
+        for shell in enumerate(shells):
+            if(xl.EdgeEnergy(z,shell)< energy-0.2):
+                en=xl.LineEnergy(z,shell)
+                escape_energy = calc_escape_energy(en,detectortype)
+                if(escape_energy[0] > fitting_range[0] and escape_energy[0] < fitting_range[1]):
+                    temp_shell_list.append(shell)
+                    
+        if temp_shell_list:
+            escape_list.append(el,z,temp_shell_list)
+    return escape_list
+
+
+def find_xrf_peaks_list(energy,fitelements,fitting_range):
+    xrf_list=[]
+    for el in enumerate(fitelements):
+        z =  xl.SymbolToAtomicNumber(el)
+        temp_shell_list=[]
+        for shell in enumerate(shells):
+            if(xl.EdgeEnergy(z,shell)< energy-0.2):
+                en=xl.LineEnergy(z,shell)
+                if(en > fitting_range[0] and en < fitting_range[1]):
+                    temp_shell_list.append(shell)
+        if temp_shell_list:
+            xrf_list.append(el,z,temp_shell_list)
+    return xrf_list
+
+def determine_escape_constraints(xrf_list,escape_list):
+    # 
+    # constraints where escape list is in xrf_list
+    # constrains where pileup list is in xrf list
+    #
+    num_escape_peaks_with_flu_peak = 0
+    num_escape_peaks_without_flu_peak = 0
+    escape_constraint_list = []
+    for i,xrf in enumerate(xrf_list):
+        el = xrf[0]
+        # is it in the escape peak list
+        j,item = [(j,item) for j,item in enumerate(escape_list) if el in item]
+        if not item:
+            num_escape_peaks_without_flu_peak =num_escape_peaks_without_flu_peak+1
+            escape_constraint_list.append((j))
+        else:
+            num_escape_peaks_with_flu_peak =num_escape_peaks_with_flu_peak+1
+            escape_constraint_list.append((j))
+            escape_constraint_list.append((i,i+j))
+    return num_escape_peaks_with_flu_peak,num_escape_peaks_without_flu_peak,escape_constraint_list
+
+        
+def determine_pileup_constraints(xrf_list,pileup_list):
+    # 
+    # constraints where escape list is in xrf_list
+    # constrains where pileup list is in xrf list
+    #
+    num_pileup_peaks_with_flu_peak = 0
+    num_pileup_peaks_without_flu_peak = 0
+    # loop over the pileup lists..
+    pileup_constraint_list = []
+    for i,pileup in enumerate(pileup_list):
+        el = pileup[0]
+        j_list = [j for j,item in enumerate(xrf_list) if item[0] in el]
+        if not j_list:
+              num_pileup_peaks_without_flu_peak= num_pileup_peaks_without_flu_peak+1
+              pileup_constraint_list.append(i)
+        else:
+            num_pileup_peaks_with_flu_peak= num_pileup_peaks_with_flu_peak+1
+            j_list.append(i)
+            pileup_constraint_list.append(j_list)
+            
+        for escape in escape_list:
+            if escape[0] == el :
+                num_escape_peaks_with_flu_peak =num_escape_peaks_with_flu_peak+1
+            else:
+                num_escape_peaks_without_flu_peak =num_escape_peaks_without_flu_peak+1
+        for 
+        
+    no_of_constraints = no_xrf_peaks + 2*(nsumpeaks-no_pileup_peaks_no_xrf) + no_pileup_peaks_no_xrf+ \
+       +2*no_escape_peaks_with_xrf + no_escape_peaks_no_xrf        
+    if(combine_escape):
+        no_escape_peaks_with_xrf, no_escape_peaks_no_xrf=0,0
+
+
+ 
+def create_element_spectra_matrix(paramdict,trans_curve):
+    """
+    Calculates the fitting matrix for given element list aout and optimized
+    parameters guess.
+
+    Args:
+    -----
+
+            guess:      Optimized/to be optimized parameters used to calculate characteristic lines.
+            x:          Array of energy in KeV.
+            ESZ:        List of atomic numbers
+            att:        Attentuation
+            background: Average background of total spectrum.
+
+    Returns:
+    --------
+
+            Returns fitting matrix DB which is a (N by 2*num + 2) matrix where num
+            is the number of elements to be included in the fitting matrix, 3
+            is included to create space for the background, scatter peak and
+            compton peak contributions which are given seperate rows and N is the
+            number of data points.
+
+    """
+
+    # Incident Energy  used in the experiment
+    # Energy range to use for fitting
+    pileup_cut_off = paramdict["FitParams"]["pileup_cutoff_keV"]
+    include_pileup = paramdict["FitParams"]["include_pileup"]
+    include_escape = paramdict["FitParams"]["include_escape"]
+    combine_escape = paramdict["FitParams"]["combine_escape_and_xrf"]
+    fitting_range  = paramdict["FitParams"]["fitted_energy_range_keV"]
+    x              = paramdict["FitParams"]["mca_energies_used"]
+    energy         =  paramdict["Experiment"]["incident_energy_keV"]
+    
+  #  print "fitting_range",fitting_range
+  #  print "x",x
+  #  print "energy",energy  
+    #  Create the standard line shapes
+    #  Loop over the elements and determine
+    #  if they are present in the energy range
+    #  Determine the line that should be present....
+    #
+    detectortype=paramdict["Detectors"]["type"]
+    detector = paramdict["Detectors"][detectortype]
+    sigma = detector["xrf_sigma"]
+    tail = detector["xrf_tail_amplitude"]
+    slope = detector["xrf_slope"]
+    step = detector["xrf_step"]
+    detectortype=detector["detector_type"]
+    no_of_transitions = len(transitions)
+    fitelements =paramdict["Experiment"]["elements"]
+    no_of_elements=len(fitelements)
+    #
+    # 
+    DB_descript=[]
+    temp_array = np.zeros((3,no_of_elements,no_of_transitions))
+    
+    
+    for j,el in enumerate(fitelements):
+        #
+        # loop over shells for that element
+        #
+        z = xl.SymbolToAtomicNumber(el)
+        for i,shell in enumerate(shells):
+            #
+            # check the edge is < energy, i.e. that it can be excited
+            # 
+            #
+            if(xl.EdgeEnergy(z,shell)< energy-0.2):
+                # Check the transition from that edge are within the energy range used
+                linepos=0.0
+                count=0.0
+                amp=0.0
+                for line in transitions[i]:
+                    en = xl.LineEnergy(z,line)
+                    # rad rate for relative size of the transition
+                    if(en>0.0):
+                        amp += xl.RadRate(z, line)
+                        linepos+=xl.RadRate(z, line)*en
+                        count+=1.0
+                if(count==0.0):
+                    break                        
+                linepos = linepos/amp
+                #amp=amp/count
+                #print "linepos",el,linepos,transitions[i]
+                if(linepos > fitting_range[0] and linepos < fitting_range[1]):
+                    
+                    # if we are all good then calculate the xrf peaks
+                    # add  
+                    temp_array[0][j][i]=1
+                    #
+                    # is the pileup peak for this element in the fitted energy range ? 
+                    # Considering only double pileup..    
+                    #    
+                    if(include_pileup):
+#                         for line in transitions[i]:
+#                             en = xl.LineEnergy(z,line)
+#                             # rad rate for relative size of the transition
+#                             if(en>0.0):
+#                                 amp += xl.RadRate(z, line)
+#                                 linepos+=en
+#                                 count+=1.0
+#                             if(count==0.0):
+#                                 break                        
+#                         amp=amp/count
+                        print 'z',z,linepos,amp
+                        if(2.*linepos > fitting_range[0] and 2.*linepos < fitting_range[1] and 2.*linepos>pileup_cut_off):
+                            temp_array[1][j][i]=1
+                    # Is the escape peak for the element in the fitted energy range ?     
+                    # escape peak could be present if xrf peak is not...
+                    # 
+                    if(include_escape):
+                        escape_energy = calc_escape_energy(linepos,detectortype)
+                        if(escape_energy[0] > fitting_range[0] and escape_energy[0] < fitting_range[1]):
+                            temp_array[2][j][i]=1
+
+    
+    #  So far we've just included the double events of a single element as pileup
+    #  but you can of course have 2 concentrated elements - e.g. Cu and Ni and the pileup is Cu+Ni.
+    #  Now work out the sum peaks...
+    #
+    pileup_indices = np.unique(np.where(np.any(temp_array[1]>0, axis=1))[0])
+    print "pileup_indices",pileup_indices
+    sumpeak_combinations=combinations_with_replacement(pileup_indices,2)
+    n=len(pileup_indices)
+    r=2
+    nsumpeaks = math.factorial(n+r-1)/ math.factorial(r) / math.factorial(n-1)
+    # Work out how many different types of peaks there are....
+    #
+    _a,no_xrf_peaks,no_pileup_peaks_with_xrf,no_pileup_peaks_no_xrf,\
+       no_escape_peaks_with_xrf, no_escape_peaks_no_xrf   = countIt(temp_array)              
+    
+    #
+    if(combine_escape):
+        no_escape_peaks_with_xrf, no_escape_peaks_no_xrf=0,0
+    #
+    # So the total no of curves is...
+    #
+    # pq changes 7/9/15
+    no_of_curves = no_xrf_peaks + no_pileup_peaks_with_xrf + no_pileup_peaks_no_xrf+ \
+       +no_escape_peaks_with_xrf + no_escape_peaks_no_xrf+(nsumpeaks - no_pileup_peaks_with_xrf - no_pileup_peaks_no_xrf)
+    #no_of_curves = no_xrf_peaks + no_pileup_peaks_with_xrf + no_pileup_peaks_no_xrf+ \
+    #   +no_escape_peaks_with_xrf + no_escape_peaks_no_xrf
+
+
+    DB_curves = np.zeros((no_of_curves,x.size),order='F')
+    DB_areas = np.zeros((no_of_curves,no_of_transitions),order='F')
+    DB_cs = np.zeros((no_of_curves,no_of_transitions),order='F')
+
+    #
+    #
+    # now create a constraints array...
+    #
+    #
+    #
+    #
+    #    
+#    no_of_constraints = no_xrf_peaks + 2*no_pileup_peaks_with_xrf + no_pileup_peaks_no_xrf+ \
+#       +2*no_escape_peaks_with_xrf + no_escape_peaks_no_xrf
+            
+    no_of_constraints = no_xrf_peaks + 2*(nsumpeaks-no_pileup_peaks_no_xrf) + no_pileup_peaks_no_xrf+ \
+       +2*no_escape_peaks_with_xrf + no_escape_peaks_no_xrf        
+       
+       
+    #
+    # rows = curves
+    # columns = parameters
+    #
+    DB_constraints = np.zeros((no_of_constraints,no_of_curves),order='F')              
+
+    #
+    # A bit of a scruffy method...
+    #
+    xrf_indices = np.unique(np.where(np.any(temp_array[0]>0, axis=1))[0])
+    pileup_indices = np.unique(np.where(np.any(temp_array[1]>0, axis=1))[0])
+    print "pileup_indices2",pileup_indices
+    escape_indices = np.unique(np.where(np.any(temp_array[2]>0, axis=1))[0])
+    print "escape_indices2", escape_indices
+    dd= np.hstack((xrf_indices,pileup_indices))
+    dd=np.hstack((dd,escape_indices))
+    _tmp,indx_list=np.unique(dd,return_inverse=True)    
+    print 'silly lists',xrf_indices,indx_list,dd
+    #
+    #
+    # Now build all the curves....
+    #
+    #transmission_curve = 
+    #     
+    # XRF first...
+    print "no_xrf_peaks",no_xrf_peaks
+    print "no xrf pileup_peaks",no_pileup_peaks_with_xrf,no_pileup_peaks_no_xrf
+    print "no of independent escape_peaks",no_escape_peaks_with_xrf,no_escape_peaks_no_xrf
+    
+    CS_cross=np.zeros(no_of_transitions)
+    for i in range(no_xrf_peaks):
+        elindex = xrf_indices[i]
+        el = fitelements[elindex]
+        z = xl.SymbolToAtomicNumber(el)
+        #
+        # Work out the fluorescence cross section..
+        #
+        CS_cross=CS_cross*0.0
+        if(type(trans_curve) is dict):
+            trans_line = trans_curve[el]
+        else:
+            trans_line = trans_curve    
+        line,areas = characteristic_lines(x, z,temp_array[0,elindex], transitions,sigma, tail, slope, step,detectortype,combine_escape,trans_line)
+        
+        for j in range(no_of_transitions):
+            if(temp_array[0,elindex][j]>0.0):
+                for eline in transitions[j]:
+                    CS_cross[j]+=xl.CS_FluorLine(z,eline,energy)
+        #olderr = np.seterr(divide='ignore')
+#         for j in range(no_of_transitions):
+#             if(CS_cross[j]>0):
+#                 areas[j]=areas[j]/CS_cross[j]
+#             else:
+#                 areas[j]=0.0
+        for j in range(no_of_transitions):
+            if(CS_cross[j]<=0):
+                areas[j]=0.0
+
+        #areas=np.nan_to_num(areas)
+        DB_curves[i]=line
+        DB_areas[i] = areas
+        DB_cs[i] =  CS_cross
+        DB_descript.append(["xrf","xrf",el,z])
+        #
+        # Set the contraint to 1 (means > 0)
+        #
+        #   
+        #
+        #
+        DB_constraints[i][i]=1
+#        curvecount+=1   
+        
+    #
+    # Now pileup peaks
+    #
+    no_pileup_peaks=no_pileup_peaks_with_xrf + no_pileup_peaks_no_xrf
+    no_escape_peaks=no_escape_peaks_with_xrf + no_escape_peaks_no_xrf
+    pileup_limit  = paramdict["FitParams"]["pileup_limit"]
+    pileup_limit = -1.0/pileup_limit
+ #   pileup_sigma = sigma*paramdict["FitParams"]["pileup_factor"]
+    constraint_count = no_xrf_peaks
+    
+#     for i in range(no_xrf_peaks, no_xrf_peaks+no_pileup_peaks):
+#         elindex = pileup_indices[i-no_xrf_peaks]
+#         el = fitelements[elindex]
+#         z = xl.SymbolToAtomicNumber(el)
+#         if(type(trans_curve) is dict):
+#             trans_line = trans_curve[el]
+#         else:
+#             trans_line = trans_curve    
+#         line,areas = pileup_characteristic_lines(x, z, temp_array[1,elindex],transitions, pileup_sigma, tail, slope, step,trans_line)
+#         DB_curves[i]=line
+#         DB_areas[i][0]=areas
+#         
+#         DB_descript.append(["xrf","pileup",el,z])
+#         #
+#         # constraint, curve,parameter
+#         #
+#         DB_constraints[constraint_count][i] =1
+#         constraint_count += 1
+#         if(elindex in xrf_indices):
+#             #print "constraint_count",constraint_count,indx[i-no_xrf_peaks],i-no_xrf_peaks
+#             DB_constraints[constraint_count][indx_list[i]] =1
+#             DB_constraints[constraint_count][i] =pileup_limit
+#             constraint_count+=1
+    sumcount = no_xrf_peaks
+    for sumcombo in sumpeak_combinations:
+        el1 = fitelements[sumcombo[0]]
+        el2 = fitelements[sumcombo[1]]
+        z1 = xl.SymbolToAtomicNumber(el1)
+        z2 = xl.SymbolToAtomicNumber(el2)
+        translist1 = temp_array[1,sumcombo[0]]
+        translist2  = temp_array[1,sumcombo[1]] 
+        line,areas = sumup_line_pair(x, z1, z2, translist1,translist2,transitions, sigma, tail, slope, step,correction=None)
+        DB_curves[sumcount]=line
+        DB_areas[sumcount][0]=areas
+        DB_descript.append(["xrf","pileup",str(el1)+str(el2),str(z1+str(z2))])
+        #
+        # constraint, curve,parameter
+        # constrain the curve to be positive...
+        DB_constraints[constraint_count][sumcount] =1
+        # If the pileup peak has XRF peaks...constrain it so it can't be stupidly big compated to the XRF peak. 
+        constraint_count += 1
+        #if(elindex in xrf_indices):
+            #print "constraint_count",constraint_count,indx[i-no_xrf_peaks],i-no_xrf_peaks
+        # The corresponding xrf peaks for this pileup event are..
+        DB_constraints[constraint_count][indx_list[sumcount]] =1
+        DB_constraints[constraint_count][indx_list[sumcount]] =1
+        # This current curve index = sumcount
+        DB_constraints[constraint_count][sumcount] =pileup_limit
+        #constraint_count+=1
+    #
+        #sumcount=sumcount+1
+    #
+    # now escape peaks...if treated separately
+    #
+    escape_limit  = paramdict["FitParams"]["pileup_limit"]
+    escape_limit = -1.0/escape_limit
+    
+    for i in range(no_xrf_peaks+no_pileup_peaks, no_xrf_peaks+no_pileup_peaks+no_escape_peaks):
+        elindex = escape_indices[i-no_xrf_peaks-no_pileup_peaks]
+        el = fitelements[elindex]
+        z = xl.SymbolToAtomicNumber(el)
+        if(type(trans_curve) is dict):
+            trans_line = trans_curve[el]
+        else:
+            trans_line = trans_curve    
+        line,areas,_ratio = escape_characteristic_lines(x, z, temp_array[2,elindex],transitions, sigma, tail, slope, step,detectortype,trans_line)
+        DB_curves[i]=line
+        DB_areas[i]=areas
+        DB_descript.append(["xrf","escape",el,z])
+        #
+        # constraint, curve,parameter
+        #
+        DB_constraints[constraint_count][i] =1
+        constraint_count += 1
+        if(elindex in xrf_indices):
+            DB_constraints[constraint_count][indx_list[i]] =1.
+            # allow at most 50% variation from the theoretical estimate of the escape peak amplitude...
+            # this allows us to compensate for angular variations which are not that well defined in the experiment...
+            DB_constraints[constraint_count][i] =escape_limit # -(1.0/(ratio*1.5))   
+            
+            constraint_count+=1
+
+            
+    return DB_curves,DB_areas,DB_cs,DB_constraints,DB_descript
+
+#    

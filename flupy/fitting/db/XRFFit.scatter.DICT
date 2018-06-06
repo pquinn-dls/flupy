@@ -1,0 +1,83 @@
+
+[XRFFit.scatter]
+
+[XRFFit.scatter.area]
+bound_type  = lohi
+min         = 0.0  
+max         = 1.0e6
+value       = 100.0
+
+[XRFFit.scatter.angle]
+bound_type  = lohi
+min         = 120.0
+max         = 165.0
+value       = 135.0
+
+[XRFFit.scatter.f_step]
+bound_type  = lohi
+min         = 0.0
+max         = 1.5
+value       = 0.1
+
+[XRFFit.scatter.f_tail]
+bound_type  = lohi
+min         = 0.0
+max         = 20.0
+value       = 0.8
+
+[XRFFit.scatter.fwhm_corr]
+bound_type  = lohi
+min         = 0.1
+max         = 3.0
+value       = 1.4
+
+[XRFFit.scatter.fwhm_offset]
+bound_type  = lohi
+min         = 0.05
+max         = 0.25
+value       = 0.15
+
+[XRFFit.scatter.gamma]
+bound_type  = lohi
+min         = 0.1
+max         = 500.0
+value       = 1.0
+
+[XRFFit.scatter.hi_f_tail]
+bound_type  = lohi
+min         = 1.0e-6
+max         = 500.0
+value       = 0.01
+
+[XRFFit.scatter.hi_gamma]
+bound_type  = lohi
+min         = 0.1
+max         = 500.0
+value       = 1.0
+
+
+[XRFFit.scatter.sigma1]
+bound_type  = lohi
+min         = 1.0e-6
+max         = 0.25
+value       = 0.06
+
+[XRFFit.scatter.sigma2]
+bound_type  = lohi
+min         = 1.0e-6
+max         = 0.25
+value       = 0.06
+
+[XRFFit.scatter.sigma]
+bound_type  = lohi
+min         = 1.0e-6
+max         = 0.25
+value       = 0.11879259
+
+
+[XRFFit.scatter.fraction]
+bound_type  = lohi
+min         = 0.0
+max         = 0.15
+value       = 0.1
+
