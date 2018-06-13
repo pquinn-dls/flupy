@@ -1,0 +1,20 @@
+[lineshape.elastic.agaussian]
+
+[lineshape.elastic.agaussian.sigma1]
+vary        = 1
+min         = 0.03
+max         = 0.20
+value       = 0.06945
+
+[lineshape.elastic.agaussian.sigma2]
+vary        = 1
+min         = 0.03
+max         = 0.20
+value       = 0.064947
+
+[lineshape.elastic.agaussian.area]
+vary        = 1
+min         = 1.0e-6
+max         = 1.0e6
+value       = 100.0
+

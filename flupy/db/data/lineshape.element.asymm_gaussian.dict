@@ -1,0 +1,20 @@
+[lineshape.element.asymm_gaussian]
+
+[lineshape.element.asymm_gaussian.sigma1]
+vary        = 1
+min         = 0.03
+max         = 0.20
+value       = 0.06945
+
+[lineshape.element.asymm_gaussian.sigma2]
+vary        = 1
+min         = 0.03
+max         = 0.20
+value       = 0.064947
+
+[lineshape.element.asymm_gaussian.area]
+vary        = 1
+min         = 1.0e-6
+max         = 1.0e6
+value       = 100.0
+

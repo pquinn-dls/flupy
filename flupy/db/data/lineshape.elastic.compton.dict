@@ -1,0 +1,92 @@
+[lineshape]
+
+[lineshape.elastic]
+
+[lineshape.elastic.compton]
+
+[lineshape.elastic.compton.area]
+vary        = 1
+min         = 0.0  
+max         = 1.0e10
+value       = 10000.0
+
+[lineshape.elastic.compton.angle]
+vary        = 1
+min         = 75.0
+max         = 165.0
+value       = 135.0
+
+[lineshape.elastic.compton.f_step]
+vary        = 0
+min         = 0.0
+max         = 1.5
+value       = 0.0
+
+[lineshape.elastic.compton.eoffset]
+vary        = 1
+min         = -1.0
+max         = 1.0
+value       = 0.0
+
+[lineshape.elastic.compton.f_tail]
+vary        = 1
+min         = 0.01
+max         = 3.0
+value       = 0.8
+
+[lineshape.elastic.compton.fwhm_corr]
+vary        = 1
+min         = 0.1
+max         = 3.0
+value       = 1.4
+
+[lineshape.elastic.compton.fwhm_offset]
+vary         = 1
+min         = 0.05
+max         = 0.25
+value       = 0.15
+
+[lineshape.elastic.compton.gamma]
+vary        = 1
+min         = 0.1
+max         = 10.0
+value       = 1.
+
+[lineshape.elastic.compton.hi_f_tail]
+vary        = 0
+min         = 0.01
+max         = 1.0
+value       = 0.1
+
+[lineshape.elastic.compton.hi_gamma]
+vary        = 0
+min         = 0.01
+max         = 3.0
+value       = 1.0
+
+
+[lineshape.elastic.compton.sigma1]
+vary        = 1
+min         = 0.03
+max         = 0.45
+value       = 0.06
+
+[lineshape.elastic.compton.sigma2]
+vary        = 1
+min         = 0.03
+max         = 0.45
+value       = 0.06
+
+[lineshape.elastic.compton.sigma]
+vary        = 1
+min         = 0.03
+max         = 0.45
+value       = 0.06489
+
+
+[lineshape.elastic.compton.fraction]
+vary        = 1
+min         = 0.0
+max         = 0.15
+value       = 0.1
+

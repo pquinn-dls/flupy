@@ -1,0 +1,47 @@
+[lineshape]
+
+[lineshape.compton]
+
+[lineshape.compton.hypermet]
+
+[lineshape.compton.hypermet.area]
+value       = 10.0
+min         = 1.e-6
+max         = 1.e7
+vary        = 1
+
+[lineshape.compton.hypermet.sigma]
+value       = 0.06945
+min         = 0.03
+max         = 0.20
+vary        = 1
+
+[lineshape.compton.hypermet.hyp_lt_area]
+value       = 0.1
+min         = 0.00001
+max         = 0.50000
+vary        = 1
+
+[lineshape.compton.hypermet.hyp_lt_slope]
+value       = 0.1
+min         = 0.0
+max         = 0.8
+vary        = 1
+
+[lineshape.compton.hypermet.hyp_st_area]
+value       = 0.0
+min         = 0.00001
+max         = 0.50000
+vary        = 1
+
+[lineshape.compton.hypermet.hyp_st_slope]
+value       = 0.0
+min         = 0.0
+max         = 0.45
+vary        = 1
+
+[lineshape.compton.hypermet.hyp_step_height]
+value       = 0.0
+min         = 0.0
+max         = 0.75
+vary        = 1
