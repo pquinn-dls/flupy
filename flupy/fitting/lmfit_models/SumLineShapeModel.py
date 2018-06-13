@@ -6,7 +6,7 @@ Created on Tue Apr 03 17:52:53 2018
 """
 from lmfit import Model,Parameters
 import numpy as np
-from flupy.flupy.xray.xraylibrary2 import XrayLine,EscapeLine
+from flupy.xray.xraylibrary2 import XrayLine,EscapeLine
 from math import sqrt
     
 class SumLineShapeModel(Model):

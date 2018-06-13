@@ -2,7 +2,7 @@
 
 import numpy as np
 from lmfit import Model
-from flupy.flupy.xray.compton import *
+from flupy.xray.compton import *
 
 def createEnergyAxisFromDict(paramdict,lowE=0.0,highE=None):
     """

@@ -7,10 +7,25 @@ from scipy import ndimage
 EPS = np.finfo(float).eps
 
 def sum_sq_diff(img1,img2):
+    """
+    
+    Computes sum of the square of the differences between two imagess  
+    
+    Parameters
+    ----------
+    img1 : 2D numpy or dask array
+    img2 : 2D numpy or dask array
+
+    Returns
+    -------
+     sum_sq_diff : float 
+    
+    
+    """
     
     diff = (img1-img2)
     
-    return sum(diff**2)
+    return np.sum(diff**2)
 
 
 def mutual_information(img1,img2,bins=None):

@@ -6,7 +6,7 @@ Created on Tue Apr 03 17:52:53 2018
 """
 from lmfit import Model,Parameters,minimize
 import numpy as np
-from flupy.flupy.xray.xraylibrary2 import XrayLine,EscapeLine,ComptonLine,ElasticLine
+from flupy.xray.xraylibrary2 import XrayLine,EscapeLine,ComptonLine,ElasticLine
 from copy import copy
 
 class XRFAllElementModel(Model):

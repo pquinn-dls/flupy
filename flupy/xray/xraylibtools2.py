@@ -7,7 +7,7 @@ Created on Tue Apr 10 09:30:36 2018
 
 #from __future__ import absolute_import, division, print_function
 from collections import namedtuple
-from flupy.flupy.xray.escape import calc_escape_peak_ratios,calc_escape_peak_energy
+from flupy.xray.escape import calc_escape_peak_ratios,calc_escape_peak_energy
 import xraylib
 from xraylib import *
 import numpy as np
@@ -296,10 +296,7 @@ def get_element_xrf_lines(Z,lines='all',incident_energy=100.0,lowE=0.0,highE=100
     result["escape"]=escape_list 
     return result
 
-def totalxsecRange(element,energy_eV):
-    
-    
-def 
+
 
 def calc_filter_efficiency(paramdict,energy):
     """

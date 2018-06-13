@@ -6,11 +6,11 @@ Created on Tue Apr 03 17:52:53 2018
 """
 from lmfit import Model
 from itertools import combinations_with_replacement, product
-import flupy.flupy.math.lineshapes as lineshapes
+import flupy.math.lineshapes as lineshapes
 import inspect
 import numpy as np
 from copy import deepcopy
-from flupy.flupy.xray.xraylibtools import get_element_xrf_lines,calculate_transmission_corrections
+from flupy.xray.xraylibtools import get_element_xrf_lines,calculate_transmission_corrections
 
 class XRFAllElementModel(Model):
 

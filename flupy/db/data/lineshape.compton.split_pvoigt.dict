@@ -1,3 +1,7 @@
+[lineshape]
+
+[lineshape.compton]
+
 [lineshape.compton.split_pvoigt]
 
 [lineshape.compton.split_pvoigt.sigma1]

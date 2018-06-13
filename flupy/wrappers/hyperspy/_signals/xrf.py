@@ -1,8 +1,12 @@
 
 # -*- coding: utf-8 -*-
-# Copyright 2007-2016 The HyperSpy developers
 #
-# This file is part of  HyperSpy.
+# This is a modificaiton of the core hyperspy EDS class
+# The EDS class isn't particularly generic with specific 
+# SEM and TEM parts and I wanted to write an extension
+# rather than a core element
+# I've kept as many of the methods that are reasonable for
+# x-ray fluorescence
 #
 #  HyperSpy is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,6 +20,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with  HyperSpy.  If not, see <http://www.gnu.org/licenses/>.
+#
 import itertools
 import logging
 
@@ -29,7 +34,7 @@ from hyperspy import utils
 from hyperspy.signal import BaseSignal
 from hyperspy._signals.signal1d import Signal1D, LazySignal1D
 from hyperspy.misc.elements import elements as elements_db
-from hyperspy.misc.eds import utils as utils_eds
+from flupy.xray import xraylibrary2 as utils_xrf
 from hyperspy.misc.utils import isiterable
 from hyperspy.utils.plot import markers
 
@@ -68,28 +73,25 @@ class XRF:
         units_name = self.axes_manager.signal_axes[0].units
 
         if FWHM_MnKa == 'auto':
-            if self.metadata.Signal.signal_type == "EDS_SEM":
-                FWHM_MnKa = self.metadata.Acquisition_instrument.SEM.\
-                    Detector.EDS.energy_resolution_MnKa
-            elif self.metadata.Signal.signal_type == "EDS_TEM":
-                FWHM_MnKa = self.metadata.Acquisition_instrument.TEM.\
-                    Detector.EDS.energy_resolution_MnKa
-            else:
-                raise NotImplementedError(
+                FWHM_MnKa = self.metadata.Acquisition_instrument.XRF.\
+                Detector.energy_resolution_MnKa
+        else:
+            raise NotImplementedError(
                     "This method only works for EDS_TEM or EDS_SEM signals. "
                     "You can use `set_signal_type(\"EDS_TEM\")` or"
                     "`set_signal_type(\"EDS_SEM\")` to convert to one of these"
                     "signal types.")
 
-        line_energy = utils_eds._get_energy_xray_line(Xray_line)
+        #
+        line_energy = utils_xrf._get_energy_xray_line(Xray_line)
         if units_name == 'eV':
             line_energy *= 1000
             if FWHM_MnKa is not None:
-                line_FWHM = utils_eds.get_FWHM_at_Energy(
+                line_FWHM = utils_xrf.get_FWHM_at_Energy(
                     FWHM_MnKa, line_energy / 1000) * 1000
         elif units_name == 'keV':
             if FWHM_MnKa is not None:
-                line_FWHM = utils_eds.get_FWHM_at_Energy(FWHM_MnKa,
+                line_FWHM = utils_xrf.get_FWHM_at_Energy(FWHM_MnKa,
                                                          line_energy)
         else:
             raise ValueError(
@@ -109,10 +111,8 @@ class XRF:
         The return value is in the same units than the signal axis
         """
 
-        if "Acquisition_instrument.SEM.beam_energy" in self.metadata:
-            beam_energy = self.metadata.Acquisition_instrument.SEM.beam_energy
-        elif "Acquisition_instrument.TEM.beam_energy" in self.metadata:
-            beam_energy = self.metadata.Acquisition_instrument.TEM.beam_energy
+        if "Acquisition_instrument.XRF.beam_energy" in self.metadata:
+            beam_energy = self.metadata.Acquisition_instrument.XRF.beam_energy
         else:
             raise AttributeError(
                 "The beam energy is not defined in `metadata`. "
@@ -150,20 +150,18 @@ class XRF:
                 xray_lines_not_in_range.append(xray_line)
         return xray_lines_in_range, xray_lines_not_in_range
 
+
     def sum(self, axis=None, out=None):
         if axis is None:
             axis = self.axes_manager.navigation_axes
         # modify time spend per spectrum
         s = super().sum(axis=axis, out=out)
         s = out or s
-        if "Acquisition_instrument.SEM" in s.metadata:
-            mp = s.metadata.Acquisition_instrument.SEM
-            mp_old = self.metadata.Acquisition_instrument.SEM
-        else:
-            mp = s.metadata.Acquisition_instrument.TEM
-            mp_old = self.metadata.Acquisition_instrument.TEM
-        if mp.has_item('Detector.EDS.live_time'):
-            mp.Detector.EDS.live_time = mp_old.Detector.EDS.live_time * \
+        if "Acquisition_instrument.XRF" in s.metadata:
+            mp = s.metadata.Acquisition_instrument.XRF
+            mp_old = self.metadata.Acquisition_instrument.XRF
+        if mp.has_item('Detector.live_time'):
+            mp.Detector.live_time = mp_old.Detector.live_time * \
                 self.data.size / s.data.size
         if out is None:
             return s
@@ -178,14 +176,10 @@ class XRF:
         time_factor = np.prod([factors[axis.index_in_array]
                                for axis in m.axes_manager.navigation_axes])
         aimd = m.metadata.Acquisition_instrument
-        if "Acquisition_instrument.SEM.Detector.EDS.real_time" in m.metadata:
-            aimd.SEM.Detector.EDS.real_time *= time_factor
-        if "Acquisition_instrument.SEM.Detector.EDS.live_time" in m.metadata:
-            aimd.SEM.Detector.EDS.live_time *= time_factor
-        if "Acquisition_instrument.TEM.Detector.EDS.real_time" in m.metadata:
-            aimd.TEM.Detector.EDS.real_time *= time_factor
-        if "Acquisition_instrument.TEM.Detector.EDS.live_time" in m.metadata:
-            aimd.TEM.Detector.EDS.live_time *= time_factor
+        if "Acquisition_instrument.XRF.Detector.real_time" in m.metadata:
+            aimd.XRF.Detector.real_time *= time_factor
+        if "Acquisition_instrument.XRF.Detector.live_time" in m.metadata:
+            aimd.XRF.Detector.live_time *= time_factor
         if out is None:
             return m
         else:
@@ -248,7 +242,7 @@ class XRF:
         else:
             elements_ = set()
         for element in elements:
-            if element in elements_db:
+            if element in elementsDB:
                 elements_.add(element)
             else:
                 raise ValueError(
@@ -304,7 +298,7 @@ class XRF:
         --------
         add_lines, add_elements, set_elements
         """
-        only_lines = utils_eds._parse_only_lines(only_lines)
+        only_lines = utils_xrf._parse_only_lines(only_lines)
         if "Sample.xray_lines" in self.metadata:
             del self.metadata.Sample.xray_lines
         self.add_lines(lines=lines,
@@ -361,7 +355,7 @@ class XRF:
         --------
         set_lines, add_elements, set_elements
         """
-        only_lines = utils_eds._parse_only_lines(only_lines)
+        only_lines = utils_xrf._parse_only_lines(only_lines)
         if "Sample.xray_lines" in self.metadata:
             xray_lines = set(self.metadata.Sample.xray_lines)
         else:
@@ -436,7 +430,7 @@ class XRF:
         list of X-ray lines alphabetically sorted
         """
 
-        only_lines = utils_eds._parse_only_lines(only_lines)
+        only_lines = utils_xrf._parse_only_lines(only_lines)
         beam_energy = self._get_beam_energy()
         lines = []
         elements = [el if isinstance(el, str) else el.decode()
@@ -549,7 +543,7 @@ class XRF:
         plot
         """
 
-        only_lines = utils_eds._parse_only_lines(only_lines)
+        only_lines = utils_xrf._parse_only_lines(only_lines)
         xray_lines = self._get_xray_lines(xray_lines, only_one=only_one,
                                           only_lines=only_lines)
         xray_lines, xray_not_here = self._get_xray_lines_in_spectral_range(
@@ -570,7 +564,7 @@ class XRF:
                 zip(xray_lines, integration_windows)):
             line_energy, line_FWHM = self._get_line_energy(Xray_line,
                                                            FWHM_MnKa='auto')
-            element, line = utils_eds._get_element_and_line(Xray_line)
+            element, line = utils_xrf._get_element_and_line(Xray_line)
             img = self.isig[window[0]:window[1]].integrate1D(-1)
             if np.issubdtype(img.data.dtype, np.integer):
                 # The operations below require a float dtype with the default
@@ -613,45 +607,6 @@ class XRF:
             utils.plot.plot_signals(intensities, **kwargs)
         return intensities
 
-    def get_take_off_angle(self):
-        """Calculate the take-off-angle (TOA).
-        TOA is the angle with which the X-rays leave the surface towards
-        the detector. Parameters are read in 'SEM.Stage.tilt_alpha',
-        'Acquisition_instrument.SEM.Detector.EDS.azimuth_angle' and
-        'SEM.Detector.EDS.elevation_angle' in 'metadata'.
-        Returns
-        -------
-        take_off_angle: float
-            in Degree
-        Examples
-        --------
-        >>> s = hs.datasets.example_signals.EDS_SEM_Spectrum()
-        >>> s.get_take_off_angle()
-        37.0
-        >>> s.set_microscope_parameters(tilt_stage=20.)
-        >>> s.get_take_off_angle()
-        57.0
-        See also
-        --------
-        hs.eds.take_off_angle
-        Notes
-        -----
-        Defined by M. Schaffer et al., Ultramicroscopy 107(8), pp 587-597
-        (2007)
-        """
-        if self.metadata.Signal.signal_type == "EDS_SEM":
-            mp = self.metadata.Acquisition_instrument.SEM
-        elif self.metadata.Signal.signal_type == "EDS_TEM":
-            mp = self.metadata.Acquisition_instrument.TEM
-
-        tilt_stage = mp.Stage.tilt_alpha
-        azimuth_angle = mp.Detector.EDS.azimuth_angle
-        elevation_angle = mp.Detector.EDS.elevation_angle
-
-        TOA = utils.eds.take_off_angle(tilt_stage, azimuth_angle,
-                                       elevation_angle)
-
-        return TOA
 
     def estimate_integration_windows(self,
                                      windows_width=2.,
@@ -691,7 +646,7 @@ class XRF:
         for Xray_line in xray_lines:
             line_energy, line_FWHM = self._get_line_energy(Xray_line,
                                                            FWHM_MnKa='auto')
-            element, line = utils_eds._get_element_and_line(Xray_line)
+            element, line = utils_xrf._get_element_and_line(Xray_line)
             det = windows_width * line_FWHM / 2.
             integration_windows.append([line_energy - det, line_energy + det])
         return integration_windows
@@ -841,7 +796,7 @@ class XRF:
                 integration_windows is not None:
             if xray_lines is False:
                 xray_lines = True
-            only_lines = utils_eds._parse_only_lines(only_lines)
+            only_lines = utils_xrf._parse_only_lines(only_lines)
             if xray_lines is True or xray_lines == 'from_elements':
                 if 'Sample.xray_lines' in self.metadata \
                         and xray_lines != 'from_elements':
@@ -907,7 +862,7 @@ class XRF:
         line_energy = []
         intensity = []
         for xray_line in xray_lines:
-            element, line = utils_eds._get_element_and_line(xray_line)
+            element, line = utils_xrf._get_element_and_line(xray_line)
             line_energy.append(self._get_line_energy(xray_line))
             relative_factor = elements_db[element][
                 'Atomic_properties']['Xray_lines'][line]['weight']
@@ -918,7 +873,7 @@ class XRF:
                 x=line_energy[i], y1=None, y2=intensity[i] * 0.8)
             self.add_marker(line)
             string = (r'$\mathrm{%s}_{\mathrm{%s}}$' %
-                      utils_eds._get_element_and_line(xray_lines[i]))
+                      utils_xrf._get_element_and_line(xray_lines[i]))
             text = markers.text(
                 x=line_energy[i], y=intensity[i] * 1.1, text=string,
                 rotation=90)
@@ -987,9 +942,10 @@ class XRF:
             self.add_marker(line)
 
 
-class EDSSpectrum(EDS_mixin, Signal1D):
+
+class XRFSpectrum(XRF, Signal1D):
     pass
 
 
-class LazyEDSSpectrum(EDSSpectrum, LazySignal1D):
+class LazyXRFSpectrum(XRFSpectrum, LazySignal1D):
     pass

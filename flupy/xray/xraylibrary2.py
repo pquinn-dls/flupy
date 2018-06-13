@@ -17,7 +17,10 @@ import math
 from itertools import product,combinations_with_replacement
 import logging
 from operator import add,mul
+from functools import reduce
 
+eV2keV = 1000.
+sigma2fwhm = 2 * math.sqrt(2 * math.log(2))
 
 xraylib.XRayInit()
 xraylib.SetErrorMessages(0)
@@ -1116,4 +1119,134 @@ def calcTotalMassAttenuationCoefficients(compoundList0, fractionList0,
 
 
 
+
+
+
+
+def _get_element_and_line(xray_line):
+    """
+    Returns the element name and line character for a particular X-ray line as
+    a tuple.
+
+    By example, if xray_line = 'Mn_Ka' this function returns ('Mn', 'Ka')
+    """
+    lim = xray_line.find('_')
+    if lim == -1:
+        raise ValueError("Invalid xray-line: %" % xray_line)
+    return xray_line[:lim], xray_line[lim + 1:]
+
+
+def _get_energy_xray_line(xray_line):
+    """
+    Returns the energy (in keV) associated with a given X-ray line.
+
+    By example, if xray_line = 'Mn_Ka' this function returns 5.8987
+    """
+    element, line = _get_element_and_line(xray_line)
+    return elements_db[element]['Atomic_properties']['Xray_lines'][
+        line]['energy (keV)']
+
+
+def _get_xray_lines_family(xray_line):
+    """
+    Returns the family to which a particular X-ray line belongs.
+
+    By example, if xray_line = 'Mn_Ka' this function returns 'Mn_K'
+    """
+    return xray_line[:xray_line.find('_') + 2]
+
+
+def _parse_only_lines(only_lines):
+    if isinstance(only_lines, str):
+        pass
+    elif hasattr(only_lines, '__iter__'):
+        if any(isinstance(line, str) is False for line in only_lines):
+            return only_lines
+    else:
+        return only_lines
+    only_lines = list(only_lines)
+    for only_line in only_lines:
+        if only_line == 'a':
+            only_lines.extend(['Ka', 'La', 'Ma'])
+        elif only_line == 'b':
+            only_lines.extend(['Kb', 'Lb1', 'Mb'])
+    return only_lines
+
+
+def get_xray_lines_near_energy(energy, width=0.2, only_lines=None):
+    """Find xray lines near a specific energy, more specifically all xray lines
+    that satisfy only_lines and are within the given energy window width around
+    the passed energy.
+
+    Parameters
+    ----------
+    energy : float
+        Energy to search near in keV
+    width : float
+        Window width in keV around energy in which to find nearby energies,
+        i.e. a value of 0.2 keV (the default) means to search +/- 0.1 keV.
+    only_lines :
+        If not None, only the given lines will be added (eg. ('a','Kb')).
+
+    Returns
+    -------
+    List of xray-lines sorted by energy difference to given energy.
+    """
+    only_lines = _parse_only_lines(only_lines)
+    valid_lines = []
+    E_min, E_max = energy - width / 2., energy + width / 2.
+    for element, el_props in elements_db.items():
+        # Not all elements in the DB have the keys, so catch KeyErrors
+        try:
+            lines = el_props['Atomic_properties']['Xray_lines']
+        except KeyError:
+            continue
+        for line, l_props in lines.items():
+            if only_lines and line not in only_lines:
+                continue
+            line_energy = l_props['energy (keV)']
+            if E_min <= line_energy <= E_max:
+                # Store line in Element_Line format, and energy difference
+                valid_lines.append((element + "_" + line,
+                                    np.abs(line_energy - energy)))
+    # Sort by energy difference, but return only the line names
+    return [line for line, _ in sorted(valid_lines, key=lambda x: x[1])]
+
+
+def get_FWHM_at_Energy(energy_resolution_MnKa, E):
+    """Calculates an approximate FWHM, accounting for peak broadening due to the
+    detector, for a peak at energy E given a known width at a reference energy.
+
+    The factor 2.5 is a constant derived by Fiori & Newbury as references
+    below.
+
+    Parameters
+    ----------
+    energy_resolution_MnKa : float
+        Energy resolution of Mn Ka in eV
+    E : float
+        Energy of the peak in keV
+
+    Returns
+    -------
+    float : FWHM of the peak in keV
+
+    Notes
+    -----
+    This method implements the equation derived by Fiori and Newbury as is
+    documented in the following:
+
+        Fiori, C. E., and Newbury, D. E. (1978). In SEM/1978/I, SEM, Inc.,
+        AMF O'Hare, Illinois, p. 401.
+
+        Goldstein et al. (2003). "Scanning Electron Microscopy & X-ray
+        Microanalysis", Plenum, third edition, p 315.
+
+    """
+    FWHM_ref = energy_resolution_MnKa
+    E_ref = _get_energy_xray_line('Mn_Ka')
+
+    FWHM_e = 2.5 * (E - E_ref) * eV2keV + FWHM_ref * FWHM_ref
+
+    return math.sqrt(FWHM_e) / 1000.  # In mrad
 

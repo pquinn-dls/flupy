@@ -1,3 +1,7 @@
+[lineshape]
+
+[lineshape.element]
+
 [lineshape.element.split_pvoigt]
 
 [lineshape.element.split_pvoigt.sigma1]

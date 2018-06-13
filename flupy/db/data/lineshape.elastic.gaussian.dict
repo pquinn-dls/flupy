@@ -1,3 +1,7 @@
+[lineshape]
+
+[lineshape.elastic]
+
 [lineshape.elastic.gaussian]
 
 [lineshape.elastic.gaussian.sigma]

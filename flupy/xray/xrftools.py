@@ -9,7 +9,7 @@ xrf line simulations...
 from lmfit import Model
 import numpy as np
 from flupy.xray.xraylibrary2 import XrayLine,EscapeLine
-import flupy.flupy.math.lineshapes as lineshapes
+import flupy.math.lineshapes as lineshapes
 
 def generate_energy_axis_from_dict(exptdesc):
     nchannels         = exptdesc["Acquisition_instrument"]["XRF"]["Detector"]["no_of_channels"]

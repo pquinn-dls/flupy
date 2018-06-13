@@ -53,11 +53,12 @@
 │   │       ├── x (mm)
 │   │       ├── y (mm)
 │   │       └── z (mm)
-│   ├── XRF
-│   │   ├── incident_angle (º)
-│   │   ├── exit_angle (º)
-│   │   ├── Detector
-│   │   │   ├── energy_resolution_MnKa (keV)
+│   └── XRAY
+│       ├── XRF
+│       │   ├── Detector
+│       │   │   ├── incident_angle (º)
+│       │   │   ├── exit_angle (º)
+│       │   │   ├── energy_resolution_MnKa (keV)
 │       │   │   ├── gain (keV/ch)
 │       │   │   ├── offset (keV)
 │       │   │   ├── fano 
@@ -88,7 +89,6 @@
 │       │   │   │  ├─ thickness
 │       │   │   │  ├─ composition
 │       │   └── XRFCalibrationStandard
-│       │   ├── beam_energy (keV)
 │       ├── XRD **** Future ****
 │       └── Stage
 │           ├── rotation (º)
